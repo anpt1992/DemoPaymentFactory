@@ -15,10 +15,10 @@ public class PaymentFactory : IPaymentFactory
     public IPaymentService GetPaymentService(string paymentName) =>
         paymentName switch
         {
-            "Vietcombank" => GetService<VcbPaymentService>(),
-            "Tienphongbank" => GetService<TpbPaymentService>(),
-            _ => throw new InvalidOperationException($"Invalid {paymentName} payment service!")
+            "Vietcombank" => GetPayment<VcbPaymentService>(),
+            "Tienphongbank" => GetPayment<TpbPaymentService>(),
+            _ => throw new ArgumentException($"Unsupported payment method: {paymentName}!")
         };
 
-    private IPaymentService GetService<T>() => (IPaymentService) _serviceProvider.GetService(typeof(T));
+    private IPaymentService GetPayment<T>() => (IPaymentService) _serviceProvider.GetService(typeof(T));
 }
